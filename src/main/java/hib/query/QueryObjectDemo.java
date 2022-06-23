@@ -1,63 +1,45 @@
 package hib.query;
 
-import java.util.List;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.query.Query;
-
-import hib.HibernateUtils;
-import hib.entities.Employee;
+import hib.entities.Client;
+import hib.entities.Commande;
+import hib.entities.Produit;
+import hib.manager.ClientManager;
+import hib.manager.ProduitManager;
 
 public class QueryObjectDemo
 {
 
 	public static void main(String[] args)
 	{
-		SessionFactory factory = HibernateUtils.getSessionFactory();
-
-		Session session = factory.getCurrentSession();
-
 		try
 		{
 
-			// All the action with DB via Hibernate
-			// must be located in one transaction.
-			// Start Transaction.
-			session.getTransaction().begin();
+			Client client = new Client();
+			client.setNom("test");
+			client.setPrenom("test");
+			client.setTel(607080910L);
 
-			Employee empl = new Employee();
-			empl.setEmpName("test");
-			empl.setEmpNo("12");
-			empl.setJob("test");
-			empl.setSalary(120f);
+			ClientManager clientManager = new ClientManager();
+			clientManager.create(client);
 
-			session.save(empl);
+			System.out.println("Nombre de client : " + clientManager.getAll().size());
 
-			// Create an HQL statement, query the object.
-			// Equivalent to the SQL statement:
-			// Select e.* from EMPLOYEE e order by e.EMP_NAME, e.EMP_NO
-			String sql = "Select e from " + Employee.class.getName() + " e " + " order by e.empName, e.empNo ";
+			Produit produit = new Produit();
+			produit.setNom("pomme");
+			produit.setPrix(100f);
 
-			// Create Query object.
-			Query<Employee> query = session.createQuery(sql);
+			ProduitManager produitManager = new ProduitManager();
+			produitManager.create(produit);
 
-			// Execute query.
-			List<Employee> employees = query.getResultList();
+			System.out.println("Nombre de produit : " + produitManager.getAll().size());
 
-			for (Employee emp : employees)
-			{
-				System.out.println("Emp: " + emp.getEmpNo() + " : " + emp.getEmpName());
-			}
+			Commande commande = new Commande();
+			commande.setClient(client);
+			commande.setArticle(produit);
 
-			// Commit data.
-			session.getTransaction().commit();
-			String a = "ok";
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-			// Rollback in case of an error occurred.
-			session.getTransaction().rollback();
 		}
 	}
 
