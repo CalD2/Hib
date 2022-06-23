@@ -5,13 +5,28 @@
 <hibernate-configuration>
  <session-factory>
 
-     <property name="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</property>
-     <property name="hibernate.connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
-     <property name="hibernate.connection.url">jdbc:oracle:thin:@localhost:1521:db11g</property>
-     <property name="hibernate.connection.username">simplehr</property>
-     <property name="hibernate.connection.password">12345</property>
-     <property name="hibernate.show_sql">true</property>
-     <property name="hibernate.connection.release_mode">auto</property>
+     <!-- Database connection settings -->
+        <property name="connection.driver_class">org.h2.Driver</property>
+        <property name="connection.url">jdbc:h2:mem:hib;DB_CLOSE_ON_EXIT=TRUE</property>
+        <property name="connection.username">sa</property>
+        <property name="connection.password">sa</property>
+
+        <!-- JDBC connection pool (use the built-in) -->
+        <property name="connection.pool_size">10</property>
+
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.H2Dialect</property>
+
+        <!-- Disable the second-level cache  -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+        <!-- Echo all executed SQL to stdout -->
+        <property name="show_sql">true</property>
+
+        <!-- Drop and re-create the database schema on startup -->
+        <property name="hbm2ddl.auto">create</property> 
+        
+        <property name="hibernate.connection.release_mode">auto</property>
      <property name="current_session_context_class">thread</property>
      <property name="hibernate.connection.autoReconnect">true</property>
 
@@ -20,6 +35,8 @@
      <mapping class="hib.entities.Employee" />
      <mapping class="hib.entities.SalaryGrade" />
      <mapping class="hib.entities.Timekeeper" />
+     
+     
 
  </session-factory>
 

@@ -26,6 +26,14 @@ public class QueryObjectDemo
 			// Start Transaction.
 			session.getTransaction().begin();
 
+			Employee empl = new Employee();
+			empl.setEmpName("test");
+			empl.setEmpNo("12");
+			empl.setJob("test");
+			empl.setSalary(120f);
+
+			session.save(empl);
+
 			// Create an HQL statement, query the object.
 			// Equivalent to the SQL statement:
 			// Select e.* from EMPLOYEE e order by e.EMP_NAME, e.EMP_NO
@@ -44,6 +52,7 @@ public class QueryObjectDemo
 
 			// Commit data.
 			session.getTransaction().commit();
+			String a = "ok";
 		} catch (Exception e)
 		{
 			e.printStackTrace();

@@ -7,6 +7,8 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -54,6 +56,7 @@ public class Employee
 	}
 
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "EMP_ID")
 	public Long getEmpId()
 	{
@@ -110,7 +113,7 @@ public class Employee
 		this.manager = manager;
 	}
 
-	@Column(name = "HIRE_DATE", nullable = false)
+	@Column(name = "HIRE_DATE")
 	@Temporal(TemporalType.DATE)
 	public Date getHideDate()
 	{
@@ -146,7 +149,7 @@ public class Employee
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "DEPT_ID", nullable = false)
+	@JoinColumn(name = "DEPT_ID")
 	public Department getDepartment()
 	{
 		return department;
